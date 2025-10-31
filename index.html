@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pantalla Completa con Botones Estilizados</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0043A1, #00B8F0);
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    flex: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #0043A1, #00B8F0);
+    padding: 0 20px;
+    position: relative;
+    z-index: 10; /* 👈 Asegura que el header quede por encima */
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  /* --- Menú de hamburguesa --- */
+  .hamburger {
+    width: 30px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 20; /* 👈 Mantiene el ícono siempre visible */
+  }
+
+  .hamburger span {
+    display: block;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+
+  /* Animación del ícono al activar */
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  /* --- Menú lateral --- */
+  nav {
+    position: fixed;
+    top: 0;
+    left: -260px; /* oculto inicialmente */
+    width: 250px;
+    height: 100%;
+    background: rgba(27, 43, 107, 0.6); /* semitransparente */
+    backdrop-filter: blur(12px); /* 👈 efecto cristal */
+    transition: left 0.3s ease;
+    padding-top: 80px;
+    z-index: 5;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+  }
+
+  nav.active {
+    left: 0;
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  nav ul li {
+    padding: 15px 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+
+  /* --- Contenido principal --- */
+  main {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    gap: 20px;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  button {
+    flex: 1;
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: #ffffff;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+  button:hover {
+  letter-spacing: 3px;
+  background-color: #253775;
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(0, 0, 0) 0px 7px 29px 0px;
+}
+
+  button:active {
+    font-size: 17px;
+  letter-spacing: 3px;
+  background-color: #253775;
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <h1>Control de Asistencia</h1>
+  </header>
+
+  <nav id="menu">
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Opciones</a></li>
+      <li><a href="#">Ayuda</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <button>Marcar Asistencia</button>
+    <button>Listas De Asistencia</button>
+    <button>Reportes</button>
+  </main>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      menu.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>
