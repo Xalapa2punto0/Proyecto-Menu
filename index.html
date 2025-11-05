@@ -1,185 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pantalla Completa con Botones Estilizados</title>
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión</title>
+  <style>
+    /* --- Estilos base --- */
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0043A1, #00B8F0);
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    font-family: arial;
-    background: linear-gradient(135deg, #0043A1, #00B8F0);
-    color: white;
-    display: flex;
-    flex-direction: column;
-  }
+    /* --- Tarjeta principal --- */
+    .card {
+      width: 320px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
 
-  header {
-    flex: 0.3;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(135deg, #0043A1, #00B8F0);
-    padding: 0 20px;
-    position: relative;
-    z-index: 10; /* 👈 Asegura que el header quede por encima */
-  }
+    .card_header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
 
-  h1 {
-    font-size: 1.5em;
-  }
+    .card svg {
+      color: #00B8F0;
+      margin-right: 10px;
+      width: 30px;
+      height: 30px;
+    }
 
-  /* --- Menú de hamburguesa --- */
-  .hamburger {
-    width: 30px;
-    height: 22px;
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 20; /* 👈 Mantiene el ícono siempre visible */
-  }
+    .form_heading {
+      font-size: 22px;
+      color: #ffffff;
+      font-weight: bold;
+    }
 
-  .hamburger span {
-    display: block;
-    height: 4px;
-    background: white;
-    border-radius: 2px;
-    transition: 0.3s;
-  }
+    /* --- Campos de entrada --- */
+    .field {
+      margin-bottom: 15px;
+      text-align: left;
+    }
 
-  /* Animación del ícono al activar */
-  .hamburger.active span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
+    label {
+      color: #d9eaff;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
 
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
+    .input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.85);
+      font-size: 15px;
+      color: #0043A1;
+    }
 
-  .hamburger.active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-  }
+    .input:focus-visible {
+      outline: 2px solid #00B8F0;
+    }
 
-  /* --- Menú lateral --- */
-  nav {
-    position: fixed;
-    top: 0;
-    left: -260px; /* oculto inicialmente */
-    width: 250px;
-    height: 100%;
-    background: rgba(27, 43, 107, 0.6); /* semitransparente */
-    backdrop-filter: blur(12px); /* 👈 efecto cristal */
-    transition: left 0.3s ease;
-    padding-top: 80px;
-    z-index: 5;
-    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
-  }
+    .input::placeholder {
+      color: #8aa9d1;
+    }
 
-  nav.active {
-    left: 0;
-  }
+    /* --- Botón --- */
+    .button {
+      width: 100%;
+      background: #00B8F0;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-  nav ul {
-    list-style: none;
-    padding: 0;
-  }
+    .button:hover {
+      background: #0043A1;
+      transform: scale(1.03);
+    }
 
-  nav ul li {
-    padding: 15px 25px;
-    border-bottom: 2px solid rgba(255,255,255,0.2);
-  }
-
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-  }
-
-  /* --- Contenido principal --- */
-  main {
-    flex: 4;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
-    gap: 20px;
-    padding: 20px;
-  }
-
-  button {
-    flex: 1;
-  padding: 17px 40px;
-  border-radius: 50px;
-  cursor: pointer;
-  border: 0;
-  background-color: #ffffff;
-  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-  text-transform: uppercase;
-  font-size: 1.2em;
-  transition: all 0.4s ease;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-  button:hover {
-    font-size: 1.6em;
-  background-color: #253775;
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(0, 0, 0) 0px 7px 29px 0px;
-}
-
-  button:active {
-    font-size: 1.6em;
-  background-color: #253775;
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
-  transform: translateY(10px);
-  transition: 100ms;
-}
-</style>
+    /* --- Mensaje de error --- */
+    .error {
+      color: #ff6961;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+  <form class="form card" id="loginForm">
+    <div class="card_header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path fill="currentColor" d="M4 15h2v5h12V4H6v5H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6zm6-4V8l5 4-5 4v-3H2v-2h8z"/>
+      </svg>
+      <h1 class="form_heading">Iniciar Sesión</h1>
     </div>
-    <h1>Control de Asistencia</h1>
-  </header>
 
-  <nav id="menu">
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Opciones</a></li>
-      <li><a href="#">Ayuda</a></li>
-    </ul>
-  </nav>
+    <div class="field">
+      <label for="username">Usuario</label>
+      <input class="input" name="username" type="text" placeholder="Ingresa tu usuario" id="username" required>
+    </div>
 
-  <main>
-    <button>Marcar Asistencia</button>
-    <button>Listas De Asistencia</button>
-    <button>Reportes</button>
-  </main>
+    <div class="field">
+      <label for="password">Contraseña</label>
+      <input class="input" name="password" type="password" placeholder="Ingresa tu contraseña" id="password" required>
+    </div>
+
+    <div class="field">
+      <button class="button" type="submit">Entrar</button>
+    </div>
+
+    <div id="errorMsg" class="error"></div>
+  </form>
 
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('menu');
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
 
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      menu.classList.toggle('active');
+    // Usuarios con roles
+    const usuarios = {
+      admin: { password: '1234', rol: 'admin' },
+      asistencia: { password: 'control2025', rol: 'usuario' },
+      consulta: { password: 'info2025', rol: 'consulta' }
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+
+      if (usuarios[user] && usuarios[user].password === pass) {
+        localStorage.setItem('usuario', user);
+        localStorage.setItem('rol', usuarios[user].rol);
+
+        errorMsg.style.color = "#00ff99";
+        errorMsg.textContent = "Acceso concedido ✅";
+        setTimeout(() => window.location.href = "principal.html", 1000);
+      } else {
+        errorMsg.textContent = "Usuario o contraseña incorrectos";
+      }
     });
   </script>
 
