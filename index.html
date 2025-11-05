@@ -1,182 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iniciar Sesión</title>
-  <style>
-    /* --- Estilos base --- */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden; /* ✅ evita corte horizontal */
+    overflow-y: hidden; /* ✅ elimina scroll vertical */
+  }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0043A1, #00B8F0);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* 👈 margen lateral para pantallas pequeñas */
+    box-sizing: border-box; /* ✅ asegura que el padding no aumente el ancho */
+  }
+
+  .login-container {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: #0043A1;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #253775;
+    color: white;
+  }
+
+  p {
+    margin-top: 15px;
+    font-size: 0.9em;
+  }
+
+  /* 🔹 Ajuste para pantallas pequeñas */
+  @media (max-width: 400px) {
     body {
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0043A1, #00B8F0);
-      font-family: 'Segoe UI', sans-serif;
-      padding: 0 20px; /* 👈 margen lateral para pantallas pequeñas */
-      box-sizing: border-box;
+      padding: 30px;
     }
-
-    /* --- Tarjeta principal --- */
-    .card {
-      width: 100%;
-      max-width: 340px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      color: white;
-      padding: 35px 30px;
-      text-align: center;
+    .login-container {
+      padding: 20px;
     }
-
-    .card_header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 25px;
-    }
-
-    .card svg {
-      color: #00B8F0;
-      margin-right: 10px;
-      width: 30px;
-      height: 30px;
-    }
-
-    .form_heading {
-      font-size: 22px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-
-    /* --- Campos --- */
-    .field {
-      margin-bottom: 18px;
-      text-align: left;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    label {
-      color: #d9eaff;
-      font-size: 14px;
-      margin-bottom: 6px;
-      width: 90%; /* 👈 igual ancho que el input para simetría */
-      text-align: left;
-    }
-
-    .input {
-      width: 90%; /* 👈 centrado visualmente con margen interno */
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      background-color: rgba(255, 255, 255, 0.9);
-      font-size: 15px;
-      color: #0043A1;
-      text-align: left;
-      transition: 0.2s;
-    }
-
-    .input:focus-visible {
-      outline: 2px solid #00B8F0;
-    }
-
-    .input::placeholder {
-      color: #8aa9d1;
-    }
-
-    /* --- Botón --- */
-    .button {
-      display: block;
-      margin: 20px auto 0 auto;
-      background: #00B8F0;
-      color: white;
-      border: none;
-      padding: 12px 40px;
-      border-radius: 25px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .button:hover {
-      background: #0043A1;
-      transform: scale(1.03);
-    }
-
-    /* --- Mensaje de error --- */
-    .error {
-      color: #ff6961;
-      font-weight: bold;
-      margin-top: 10px;
-      text-align: center;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <form class="form card" id="loginForm">
-    <div class="card_header">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path fill="none" d="M0 0h24v24H0z"></path>
-        <path fill="currentColor" d="M4 15h2v5h12V4H6v5H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6zm6-4V8l5 4-5 4v-3H2v-2h8z"/>
-      </svg>
-      <h1 class="form_heading">Iniciar Sesión</h1>
-    </div>
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
+  <input type="text" id="username" placeholder="Usuario" required>
+  <input type="password" id="password" placeholder="Contraseña" required>
+  <button onclick="login()">Entrar</button>
+  <p id="error" style="color: #ff8080;"></p>
+</div>
 
-    <div class="field">
-      <label for="username">Usuario</label>
-      <input class="input" name="username" type="text" placeholder="Ingresa tu usuario" id="username" required>
-    </div>
+<script>
+  const usuarios = {
+    admin: { password: "123", rol: "admin" },
+    operador: { password: "123", rol: "operador" }
+  };
 
-    <div class="field">
-      <label for="password">Contraseña</label>
-      <input class="input" name="password" type="password" placeholder="Ingresa tu contraseña" id="password" required>
-    </div>
+  function login() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const error = document.getElementById('error');
 
-    <div class="field">
-      <button class="button" type="submit">Entrar</button>
-    </div>
-
-    <div id="errorMsg" class="error"></div>
-  </form>
-
-  <script>
-    const form = document.getElementById('loginForm');
-    const errorMsg = document.getElementById('errorMsg');
-
-    // Usuarios con roles
-    const usuarios = {
-      admin: { password: '1234', rol: 'admin' },
-      asistencia: { password: 'control2025', rol: 'usuario' },
-      consulta: { password: 'info2025', rol: 'consulta' }
-    };
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-
-      if (usuarios[user] && usuarios[user].password === pass) {
-        localStorage.setItem('usuario', user);
-        localStorage.setItem('rol', usuarios[user].rol);
-
-        errorMsg.style.color = "#00ff99";
-        errorMsg.textContent = "Acceso concedido ✅";
-        setTimeout(() => window.location.href = "principal.html", 1000);
-      } else {
-        errorMsg.textContent = "Usuario o contraseña incorrectos";
-      }
-    });
-  </script>
+    if (usuarios[user] && usuarios[user].password === pass) {
+      localStorage.setItem("usuarioActual", JSON.stringify({
+        nombre: user,
+        rol: usuarios[user].rol
+      }));
+      window.location.href = "principal.html";
+    } else {
+      error.textContent = "Usuario o contraseña incorrectos.";
+    }
+  }
+</script>
 
 </body>
 </html>
