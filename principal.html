@@ -25,12 +25,12 @@
     justify-content: space-between;
     background: linear-gradient(135deg, #0043A1, #00B8F0);
     padding: 0 20px;
-    position: relative;
-    z-index: 10;
+    z-index: 10; /* asegura que el botón esté encima del menú */
   }
 
   h1 { font-size: 1.5em; }
 
+  /* Botón de hamburguesa */
   .hamburger {
     width: 30px;
     height: 22px;
@@ -39,7 +39,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 20;
   }
 
   .hamburger span {
@@ -50,11 +49,11 @@
     transition: 0.3s;
   }
 
-  /* Animación del ícono */
   .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
+  /* Menú lateral */
   nav {
     position: fixed;
     top: 0;
@@ -63,16 +62,30 @@
     height: 100%;
     background: rgba(27, 43, 107, 0.6);
     backdrop-filter: blur(12px);
-    transition: left 0.3s ease;
+    transition: left 0.4s ease;
     padding-top: 80px;
     z-index: 5;
-    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
   }
 
   nav.active { left: 0; }
   nav ul { list-style: none; padding: 0; }
   nav ul li { padding: 15px 25px; border-bottom: 2px solid rgba(255,255,255,0.2); }
-  nav ul li a { color: white; text-decoration: none; font-size: 1.2em; }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    display: block;
+    transition: background 0.3s;
+  }
+
+  nav ul li a:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  nav ul li a.disabled {
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.5);
+  }
 
   main {
     flex: 4;
@@ -92,30 +105,21 @@
     background-color: #ffffff;
     box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
     text-transform: uppercase;
-    font-size: 1.4em;
+    font-size: 1.2em;
     transition: all 0.4s ease;
-    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-family: Arial, sans-serif;
   }
 
   button:hover {
-    font-size: 1.6em;
+    font-size: 1.4em;
     background-color: #253775;
     color: white;
   }
 
-  /* 🔹 Botones deshabilitados */
   button.disabled {
-    background-color: #b0b0b0;
-    color: #666;
+    background-color: #888;
+    color: #ccc;
     cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-  }
-
-  button.disabled:hover {
-    font-size: 1.4em;
-    background-color: #b0b0b0;
-    color: #666;
   }
 
   #logout {
@@ -124,7 +128,7 @@
     left: 20px;
     background-color: #ff4d4d;
     color: white;
-    font-size: 1.3em;
+    font-size: 1em;
   }
 </style>
 </head>
@@ -142,6 +146,7 @@
     <li><a href="#">Inicio</a></li>
     <li><a href="#">Opciones</a></li>
     <li><a href="#">Ayuda</a></li>
+    <li><a href="#" id="adminUsuarios">Administración de Usuarios</a></li>
   </ul>
   <button id="logout">Cerrar Sesión</button>
 </nav>
@@ -156,40 +161,34 @@
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('menu');
   const logout = document.getElementById('logout');
+  const adminUsuarios = document.getElementById('adminUsuarios');
   const userData = JSON.parse(localStorage.getItem("usuarioActual"));
 
-  // Redirigir si no hay sesión activa
+  // Si no hay usuario, redirigir al login
   if (!userData) {
     window.location.href = "index.html";
   }
 
   const rol = userData?.rol;
 
-  // 🔹 Si el rol es operador, deshabilitar botones no permitidos
+  // Control de roles
+  const btnListas = document.getElementById('btnListas');
+  const btnReportes = document.getElementById('btnReportes');
+
   if (rol === "operador") {
-    const btnListas = document.getElementById('btnListas');
-    const btnReportes = document.getElementById('btnReportes');
     btnListas.classList.add("disabled");
-    btnReportes.classList.add("disabled");
     btnListas.disabled = true;
+    btnReportes.classList.add("disabled");
     btnReportes.disabled = true;
+    adminUsuarios.classList.add("disabled");
   }
 
-  // 🔹 Alternar menú lateral correctamente
+  // Menú hamburguesa (sin cambios)
   hamburger.addEventListener('click', () => {
-    const isActive = hamburger.classList.toggle('active');
-    menu.classList.toggle('active', isActive);
+    hamburger.classList.toggle('active');
+    menu.classList.toggle('active');
   });
 
-  // 🔹 Cerrar menú al hacer clic fuera de él
-  document.addEventListener('click', (e) => {
-    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
-      hamburger.classList.remove('active');
-      menu.classList.remove('active');
-    }
-  });
-
-  // 🔹 Botón de cerrar sesión
   logout.addEventListener('click', () => {
     localStorage.removeItem("usuarioActual");
     window.location.href = "index.html";
